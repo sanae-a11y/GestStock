@@ -35,6 +35,6 @@ public class Lfacture {
 	  private double montttc;
 	  @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	  @JsonBackReference
-	  private Facture facture;
+	  private FactFour factFour;
 
 }

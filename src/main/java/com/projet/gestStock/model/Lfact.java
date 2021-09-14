@@ -37,7 +37,7 @@ public class Lfact {
 	  private double totttc;
 	  @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	  @JsonBackReference
-	  private Fact fact;
+	  private FactClient factClient;
 
 	
 }

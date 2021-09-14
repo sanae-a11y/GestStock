@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "fact")
-public class Fact {
+public class FactClient {
 	@Id
 	  @GeneratedValue(strategy = GenerationType.AUTO)
 	  private long id;
@@ -37,7 +37,7 @@ public class Fact {
 	  private float rs;
 	  private float montrs;
 	  @JsonManagedReference
-	    @OneToMany(mappedBy = "fact")
+	    @OneToMany(mappedBy = "factClient")
 	    @Valid
 	    private List<Lfact> lfacts = new ArrayList<>();
 	public long getId() {
@@ -136,9 +136,9 @@ public class Fact {
 	public void setLfacts(List<Lfact> lfacts) {
 		this.lfacts = lfacts;
 	}
-	public Fact(long id, int annee, int numero, int code, String lib_client, LocalDate date_fact, String libelle,
-			float totht, float totrem, float totfodec, float tottva, float timbre, float totttc, float rs, float montrs,
-			@Valid List<Lfact> lfacts) {
+	public FactClient(long id, int annee, int numero, int code, String lib_client, LocalDate date_fact, String libelle,
+					  float totht, float totrem, float totfodec, float tottva, float timbre, float totttc, float rs, float montrs,
+					  @Valid List<Lfact> lfacts) {
 		super();
 		this.id = id;
 		this.annee = annee;
@@ -157,7 +157,7 @@ public class Fact {
 		this.montrs = montrs;
 		this.lfacts = lfacts;
 	}
-	public Fact() {
+	public FactClient() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

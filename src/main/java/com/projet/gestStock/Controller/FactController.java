@@ -9,7 +9,7 @@ import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import com.projet.gestStock.exception.ResourceNotFoundException;
-import com.projet.gestStock.model.Fact;
+import com.projet.gestStock.model.FactClient;
 import com.projet.gestStock.model.Lfact;
 import com.projet.gestStock.repository.FactRepository;
 import com.projet.gestStock.repository.LfactRepository;
@@ -40,27 +40,27 @@ public class FactController {
 
 	@Autowired  ServletContext context;
 	 @GetMapping("/facts")
-	  public List<Fact> getAllFacts() {
+	  public List<FactClient> getAllFacts() {
 	    System.out.println("Get all Facts...");
-	    List<Fact> Facts = new ArrayList<>();
-	    repository.findAll().forEach(Facts::add);
-	    return Facts;
+	    List<FactClient> factClients = new ArrayList<>();
+	    repository.findAll().forEach(factClients::add);
+	    return factClients;
 	  }
 	
 	@GetMapping("/facts/{id}")
-	public ResponseEntity<Fact> getFactById(@PathVariable(value = "id") Long FactId)
+	public ResponseEntity<FactClient> getFactById(@PathVariable(value = "id") Long FactId)
 			throws ResourceNotFoundException {
-		Fact Fact = repository.findById(FactId)
+		FactClient FactClient = repository.findById(FactId)
 				.orElseThrow(() -> new ResourceNotFoundException("Fact not found for this id :: " + FactId));
-		return ResponseEntity.ok().body(Fact);
+		return ResponseEntity.ok().body(FactClient);
 	}
 
 	@PostMapping("/facts")
-	public ResponseEntity<Fact> createBs1016(@Valid @RequestBody Fact Fact)  throws JsonParseException , JsonMappingException , Exception{
-		  repository.save(Fact);
-		  List<Lfact> lfacts = Fact.getLfacts();
+	public ResponseEntity<FactClient> createBs1016(@Valid @RequestBody FactClient FactClient)  throws JsonParseException , JsonMappingException , Exception{
+		  repository.save(FactClient);
+		  List<Lfact> lfacts = FactClient.getLfacts();
 		    for (Lfact lc : lfacts) {
-	          	lc.setNumero(Fact.getNumero());
+	          	lc.setNumero(FactClient.getNumero());
 	          	repo.save(lc);
 		       }	 
 
@@ -71,9 +71,9 @@ public class FactController {
 	@DeleteMapping("/facts/{id}")
 	public Map<String, Boolean> deleteFact(@PathVariable(value = "id") Long FactId)
 			throws ResourceNotFoundException {
-		Fact Fact = repository.findById(FactId)
+		FactClient FactClient = repository.findById(FactId)
 				.orElseThrow(() -> new ResourceNotFoundException("Fact not found  id :: " + FactId));
-		repository.delete(Fact);
+		repository.delete(FactClient);
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return response;
@@ -87,13 +87,13 @@ public class FactController {
 	  }
 	 
 	  @PutMapping("/Facts/{id}")
-	  public ResponseEntity<Fact> updateFact(@PathVariable("id") long id, @RequestBody Fact Fact) {
+	  public ResponseEntity<FactClient> updateFact(@PathVariable("id") long id, @RequestBody FactClient FactClient) {
 	    System.out.println("Update Fact with ID = " + id + "...");
-	    Optional<Fact> FactInfo = repository.findById(id);
+	    Optional<FactClient> FactInfo = repository.findById(id);
 	    if (FactInfo.isPresent()) {
-	    	Fact fact = FactInfo.get();
-	    	fact.setLibelle(Fact.getLibelle());
-	      return new ResponseEntity<>(repository.save(Fact), HttpStatus.OK);
+	    	FactClient factClient = FactInfo.get();
+	    	factClient.setLibelle(FactClient.getLibelle());
+	      return new ResponseEntity<>(repository.save(FactClient), HttpStatus.OK);
 	    } else {
 	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	    }
